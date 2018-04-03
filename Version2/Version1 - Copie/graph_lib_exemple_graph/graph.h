@@ -178,7 +178,7 @@ class EdgeInterface
     friend class Edge;
     friend class Graph;
 
-    private :
+    private : //LAURA
 
         /// Les widgets de l'interface. N'oubliez pas qu'il ne suffit pas de déclarer
         /// ici un widget pour qu'il apparaisse, il faut aussi le mettre en place et
