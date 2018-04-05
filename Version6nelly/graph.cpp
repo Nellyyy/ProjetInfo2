@@ -403,7 +403,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
     /// OOOPS ! Prendre en compte l'arc ajouté dans la topologie du graphe !
     m_vertices[id_vert1].m_out.push_back(id_vert2);
-m_vertices[id_vert2].m_in.push_back(id_vert1);
+    m_vertices[id_vert2].m_in.push_back(id_vert1);
 }
 
 ///afficher la map d'arete
@@ -598,98 +598,116 @@ void Graph :: supp_arete(bool *fin_inna1, bool *fin_inna2, int *cpt_inna, Sommet
 }
 
 
-
-std::vector <Edge> *Graph :: ar_incidentes(bool *click ,int *s, std::vector<Edge> *incidentes)
+void Graph :: ar_incidentes(bool *click, int *v)
 {
-
-if((mouse_b&1) && ((mouse_x>=0 && mouse_x<=800) && (mouse_y>=0 && mouse_y<=600)) )
+    if((mouse_b&1) && ((mouse_x>=0 && mouse_x<=800) && (mouse_y>=0 && mouse_y<=600)) )
     {
         ///on recupère les coordonnées de la ou on a clique
         double mouseposx = mouse_x;
         double mouseposy = mouse_y;
 
-        for (unsigned int i=0; i<m_vect_sommets.size(); ++i)
+        for (std::map<int, Vertex> :: iterator it=m_vertices.begin(); it!=m_vertices.end(); ++it)
         {
 
             /// si il clique sur un sommet
-            if ( mouseposy >=m_vect_sommets[i].m_coordy && mouseposy <=m_vect_sommets[i].m_coordy + 100 &&mouseposx>=m_vect_sommets[i].m_coordx-80 && mouseposx <= m_vect_sommets[i].m_coordx +20 )
+            if ( mouseposy >=  it->second.m_interface->m_top_box.get_posy() && mouseposy <=it->second.m_interface->m_top_box.get_posy()  + 100 &&mouseposx>=it->second.m_interface->m_top_box.get_posx() -80 && mouseposx <= it->second.m_interface->m_top_box.get_posx()  +20 )
 
             {
-
-                *s=m_vect_sommets[i].m_num;
+                *v=it->first;
+                std::cout << "sommet : "<<*v;
 
             }
             ///on recupère ce sommet
 
         }
-*click=true;
+        *click=true;
     }
     else if (*click)
     {
-
-      for (unsigned int i=0; i<m_vect_aretes.size(); i++)
-    {
-        if (m_vect_aretes[i].m_from == *s || m_vect_aretes[i].m_to == *s)
+        std::map<int, Vertex> :: iterator it_sommet;
+        it_sommet=m_vertices.find(*v);
+        for (std::map<int, Edge> :: iterator it=m_edges.begin(); it!=m_edges.end(); ++it)
         {
-            incidentes->push_back(m_vect_aretes[i]);
+
+            if (it->second.m_from == *v )
+            {
+                it_sommet->second.m_out.push_back(it->first);
+            }
+            else if (it->second.m_to == *v)
+            {
+                it_sommet->second.m_in.push_back(it->first);
+            }
+
         }
 
+        *click =false;
+        ///affichage des vecteurs in et out
+       /* for (unsigned int i =0; i<m_vertices[*v].m_in.size(); ++i)
+        {
+            std :: cout << "in " << it_sommet->second.m_in[i]<< std::endl;
+
+        }
+
+        for (unsigned int i=0; i<m_vertices[*v].m_out.size(); ++i)
+        {
+            std :: cout << "out " << it_sommet->second.m_out[i]<< std::endl;
+
+        }*/
+
     }
 
-   *click =false;
-    }
 
-   return incidentes;
 }
 
 
-void Graph :: supprimer_sommet(bool *premier, bool *deux, int *compteur, Sommet *s)
+void Graph :: supprimer_sommet(bool *premier, bool *deux, int *compteur, Vertex *v)
 {
-    std::vector<Edge> incidentes;
-     /// si il clique sur supprimer un sommet
-     /// A VERIFIER POUR LE 66 ET 80
+
+    int sommet_choisi=0;
+    //std::vector<Edge> incidentes;
+    /// si il clique sur supprimer un sommet
+
     if((mouse_b&1) && ((mouse_x>=500 && mouse_x<=800) && (mouse_y>=66 && mouse_y<=80)) && !(*premier))
     {
+        std::cout << "click";
         *premier=true;
         *compteur=1;
-        std::cout << "choisissez le sommet à supprimer" <<std::endl;
+        std::cout << "choisissez le sommet a supprimer" <<std::endl;
     }
-
-/*
-/// si il clique GAUCHE et dans l'ecran sur un sommet
+    /// si il clique GAUCHE et dans l'ecran sur un sommet
     else if((mouse_b&1) && ((mouse_x>=0 && mouse_x<=800) && (mouse_y>=0 && mouse_y<=600)) && *premier && *compteur>=50)
     {
+        std::cout << "esle if" <<std::endl;
         ///on recupère les coordonnées de la ou on a clique
         double mouseposx = mouse_x;
         double mouseposy = mouse_y;
 
-        // std::cout << "pos "<<  mouseposx << mouseposy <<std::endl;
-        //std::cout << "pos "<<  m_vect_sommets[4].m_coordx << m_vect_sommets[4].m_coordy <<std::endl;
-
-
-        for (unsigned int i=0; i<m_vect_sommets.size(); ++i)
+        for (  std::map<int, Vertex> :: iterator it=m_vertices.begin(); it!=m_vertices.end(); ++it)
         {
 
             /// si il clique sur un sommet
-            if ( mouseposy >=m_vect_sommets[i].m_coordy && mouseposy <=m_vect_sommets[i].m_coordy + 100 &&mouseposx>=m_vect_sommets[i].m_coordx-80 && mouseposx <= m_vect_sommets[i].m_coordx +20 )
+            if ( mouseposy >=  it->second.m_interface->m_top_box.get_posy() && mouseposy <=it->second.m_interface->m_top_box.get_posy()  + 100 &&mouseposx>=it->second.m_interface->m_top_box.get_posx() -80 && mouseposx <= it->second.m_interface->m_top_box.get_posx()  +20 )
 
             {
-                s=&m_vect_sommets[i];
+                sommet_choisi = it->first;
+
             }
             ///on recupère ce sommet
         }
         *deux=true;
+
     }
 
     if (premier && deux)
     {
         /// si on a cliquer sur supprimer sommet et qu'on a choisi le sommet a supprimer
-incidentes= ar_incidentes(*s);
+//incidentes= ar_incidentes(*s);
         /// sous programmme INNA : boucle pour toutes les aretes incidentes de ce sommet
         ///on les supprime
+        m_interface->m_main_box.remove_child(m_vertices[sommet_choisi].m_interface->m_top_box);
+        m_vertices.erase(sommet_choisi);
 
-        m_vect_sommets.erase(m_vect_sommets.begin()+ s->m_num);
+
     }
 
 }
-*/

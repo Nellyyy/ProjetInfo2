@@ -333,9 +333,11 @@ class Graph
         void supp_arete(bool *fin_inna1, bool *fin_inna2, int *cpt_inna, Sommet *s1,  Sommet *s2, int *s);
 
         ///trouver aretes incidentes
-std::vector <Edge> * ar_incidentes(bool *click ,int *s, std::vector<Edge> *incidentes);
+void  ar_incidentes(bool *click, int *v);
+
+
 ///supprimer arete
-void supprimer_sommet(bool *premier, bool *deux, int *compteur, Sommet *s);
+void supprimer_sommet(bool *premier, bool *deux, int *compteur, Vertex*v);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

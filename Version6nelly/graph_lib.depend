@@ -542,3 +542,63 @@
 1522919532 source:c:\users\nelly\documents\github\version5_biblio_ajout_aretes\graph.cpp
 	"graph.h"
 
+1522915965 source:c:\users\nelly\documents\github\version6nelly\grman\coords.cpp
+	"coords.h"
+
+1522915965 c:\users\nelly\documents\github\version6nelly\grman\coords.h
+	<cmath>
+
+1522915965 source:c:\users\nelly\documents\github\version6nelly\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522915965 c:\users\nelly\documents\github\version6nelly\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522915965 c:\users\nelly\documents\github\version6nelly\grman\grman_couleurs.h
+
+1522915965 c:\users\nelly\documents\github\version6nelly\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522915965 source:c:\users\nelly\documents\github\version6nelly\grman\widget.cpp
+	"widget.h"
+
+1522944645 source:c:\users\nelly\documents\github\version6nelly\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522944621 c:\users\nelly\documents\github\version6nelly\graph.h
+	<fstream>
+	"Sommet.h"
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522915964 c:\users\nelly\documents\github\version6nelly\sommet.h
+	<iostream>
+
+1522944730 source:c:\users\nelly\documents\github\version6nelly\graph.cpp
+	"graph.h"
+
